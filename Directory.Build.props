@@ -1,0 +1,15 @@
+<Project>
+  <!-- Vale para todos os projetos da lib, inclusive quando compilados de dentro de outro repositório (submodule). -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!-- Pacote com vulnerabilidade conhecida, mesmo indireto, quebra o build. -->
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <NuGetAuditLevel>low</NuGetAuditLevel>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      # A auditoria do NuGet roda no restore. Com TreatWarningsAsErrors, pacote vulnerável quebra o build.
+      - name: Restore
+        run: dotnet restore Core.Common.Components.slnx
+
+      - name: Build
+        run: dotnet build Core.Common.Components.slnx --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test --solution Core.Common.Components.slnx --configuration Release --no-build
+
+      - name: Domain sem dependências
+        # Regra da lib: o projeto de domínio não referencia nenhum pacote NuGet.
+        run: |
+          if grep -q "<PackageReference" src/Core.Common.Domain/Core.Common.Domain.csproj; then
+            echo "::error file=src/Core.Common.Domain/Core.Common.Domain.csproj::Core.Common.Domain não pode referenciar pacotes."
+            exit 1
+          fi

@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Regra da lib: este projeto não referencia nenhum pacote. -->
+  <PropertyGroup>
+    <RootNamespace>Core.Common.Domain</RootNamespace>
+  </PropertyGroup>
+
+</Project>
